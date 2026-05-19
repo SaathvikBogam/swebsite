@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Electromagnetism">
+  <rect width="200" height="200" fill="#1e1e18"/>
+  <path d="M30 120 Q100 40 170 120" fill="none" stroke="#e05050" stroke-width="14" stroke-linecap="round"/>
+  <path d="M30 120 Q100 70 170 120" fill="none" stroke="#e0c050" stroke-width="14" stroke-linecap="round"/>
+  <path d="M30 120 Q100 95 170 120" fill="none" stroke="#50a0e0" stroke-width="14" stroke-linecap="round"/>
+</svg>

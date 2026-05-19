@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { contentSlug } from "../../lib/contentSlug";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("notes");
+  return posts.map((post) => ({
+    params: { slug: contentSlug(post.id) },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BaseLayout title={post.data.title}>
+  <article>
+    {(post.data.date || post.data.course) && (
+      <p class="meta">
+        {post.data.date && (
+          <time datetime={post.data.date.toISOString()}>
+            {post.data.date.toLocaleDateString("en-IN", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </time>
+        )}
+        {post.data.date && post.data.course && " · "}
+        {post.data.course}
+      </p>
+    )}
+    {post.data.pdf && (
+      <p class="pdf">
+        <a href={post.data.pdf}>Download PDF</a>
+        <span class="hint"> (compiled from LaTeX)</span>
+      </p>
+    )}
+    <h1>{post.data.title}</h1>
+    <Content />
+  </article>
+</BaseLayout>
+
+<style>
+  .meta {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .pdf {
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+  }
+
+  .hint {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>

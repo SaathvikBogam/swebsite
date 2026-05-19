@@ -1,0 +1,69 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { contentSlug } from "../../lib/contentSlug";
+
+const entries = (await getCollection("journey")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<BaseLayout title="Journey" description="Milestones along my undergraduate path.">
+  <h1>Journey</h1>
+  <p>Short entries I can update whenever something worth recording happens.</p>
+  <ol class="timeline">
+    {
+      entries.map((e) => (
+        <li>
+          <time datetime={e.data.date.toISOString()}>
+            {e.data.date.toLocaleDateString("en-IN", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
+          </time>
+          <span class="kind">{e.data.kind}</span>
+          <a href={`/journey/${contentSlug(e.id)}`}>{e.data.title}</a>
+        </li>
+      ))
+    }
+  </ol>
+</BaseLayout>
+
+<style>
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+  }
+
+  .timeline li {
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .timeline time {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .kind {
+    display: inline-block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    margin: 0.25rem 0;
+  }
+
+  .timeline a {
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .timeline a:hover {
+    text-decoration: underline;
+  }
+</style>

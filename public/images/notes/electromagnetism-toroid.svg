@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Magnetic field lines inside a toroid">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#1a2830"/>
+      <stop offset="100%" stop-color="#0f1418"/>
+    </radialGradient>
+    <linearGradient id="core" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a5a62"/>
+      <stop offset="50%" stop-color="#6a7a82"/>
+      <stop offset="100%" stop-color="#3a4a52"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#5ec8e8"/>
+    </marker>
+  </defs>
+
+  <rect width="400" height="400" fill="url(#bg)"/>
+
+  <!-- Toroid cross-section (annulus) -->
+  <circle cx="200" cy="200" r="128" fill="none" stroke="#7a8a92" stroke-width="3" opacity="0.5"/>
+  <circle cx="200" cy="200" r="72" fill="none" stroke="#7a8a92" stroke-width="3" opacity="0.5"/>
+  <circle cx="200" cy="200" r="128" fill="url(#core)" opacity="0.35"/>
+  <circle cx="200" cy="200" r="72" fill="url(#bg)"/>
+
+  <!-- B-field lines: closed loops in the torus (concentric in top view) -->
+  <g fill="none" stroke="#5ec8e8" stroke-width="2.2" marker-end="url(#arrow)" opacity="0.92">
+    <circle cx="200" cy="200" r="88"/>
+    <circle cx="200" cy="200" r="98"/>
+    <circle cx="200" cy="200" r="108"/>
+    <circle cx="200" cy="200" r="118"/>
+  </g>
+
+  <!-- Second set of arrows (offset phase) for clearer circulation -->
+  <g fill="none" stroke="#3aa8c8" stroke-width="1.6" marker-end="url(#arrow)" opacity="0.65">
+    <path d="M 200 112 A 88 88 0 0 1 288 200" />
+    <path d="M 288 200 A 88 88 0 0 1 200 288" />
+    <path d="M 200 288 A 88 88 0 0 1 112 200" />
+    <path d="M 112 200 A 88 88 0 0 1 200 112" />
+    <path d="M 200 102 A 98 98 0 0 1 298 200" />
+    <path d="M 298 200 A 98 98 0 0 1 200 298" />
+    <path d="M 200 298 A 98 98 0 0 1 102 200" />
+    <path d="M 102 200 A 98 98 0 0 1 200 102" />
+  </g>
+
+  <!-- Coil windings hint (toroidal winding) -->
+  <g stroke="#c4a060" stroke-width="2.5" fill="none" opacity="0.75">
+    <path d="M 200 72 A 128 128 0 0 1 328 200" stroke-dasharray="6 10"/>
+    <path d="M 328 200 A 128 128 0 0 1 200 328" stroke-dasharray="6 10"/>
+    <path d="M 200 328 A 128 128 0 0 1 72 200" stroke-dasharray="6 10"/>
+    <path d="M 72 200 A 128 128 0 0 1 200 72" stroke-dasharray="6 10"/>
+  </g>
+
+  <!-- Subtle 3D torus edge (perspective ellipse) -->
+  <ellipse cx="200" cy="200" rx="138" ry="118" fill="none" stroke="#8a9aa2" stroke-width="2" opacity="0.25"/>
+</svg>
