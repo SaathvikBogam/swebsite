@@ -15,7 +15,7 @@ const { post } = Astro.props;
 const { Content } = await post.render();
 ---
 
-<BaseLayout title={post.data.title}>
+<BaseLayout title={post.data.title} pageClass="journey-page">
   <article>
     <p class="meta">
       <time datetime={post.data.date.toISOString()}>

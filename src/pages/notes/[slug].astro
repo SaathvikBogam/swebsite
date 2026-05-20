@@ -32,13 +32,13 @@ const { Content } = await post.render();
         {post.data.course}
       </p>
     )}
+    <h1>{post.data.title}</h1>
     {post.data.pdf && (
       <p class="pdf">
         <a href={post.data.pdf}>Download PDF</a>
         <span class="hint"> (compiled from LaTeX)</span>
       </p>
     )}
-    <h1>{post.data.title}</h1>
     <Content />
   </article>
 </BaseLayout>

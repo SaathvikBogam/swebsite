@@ -4,9 +4,10 @@ interface Props {
   description?: string;
   /** Wider main column (e.g. home page with side-by-side layout). */
   wide?: boolean;
+  pageClass?: string;
 }
 
-const { title, description, wide = false } = Astro.props;
+const { title, description, wide = false, pageClass = "" } = Astro.props;
 
 import "../styles/computer-modern.css";
 ---
@@ -26,7 +27,7 @@ import "../styles/computer-modern.css";
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
   </head>
-  <body>
+  <body class:list={pageClass ? [pageClass] : []}>
     <a class="skip" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="inner">
@@ -43,7 +44,10 @@ import "../styles/computer-modern.css";
     </main>
     <footer class="site-footer">
       <div class="inner">
-        <p>Personal academic log — not an official IISER page.</p>
+        <p>
+          Get in touch with me at saathvik25@iiserb.ac.in —
+          <a href="/CV.pdf" target="_blank" rel="noopener noreferrer">View my CV</a>
+        </p>
       </div>
     </footer>
   </body>
@@ -207,6 +211,30 @@ import "../styles/computer-modern.css";
     overflow-x: auto;
     overflow-y: hidden;
     padding: 0.5rem 0;
+  }
+
+  /* Journey page — light blue layout */
+  body.journey-page {
+    background: #e8f4ff;
+    color: var(--fg);
+  }
+
+  body.journey-page .site-header {
+    background: rgba(232, 244, 255, 0.92);
+    border-bottom-color: rgba(45, 74, 111, 0.12);
+  }
+
+  body.journey-page .site-footer {
+    border-top-color: rgba(45, 74, 111, 0.12);
+  }
+
+  body.journey-page .site-header nav a {
+    color: var(--muted);
+  }
+
+  body.journey-page .site-header nav a:hover,
+  body.journey-page .brand:hover {
+    color: var(--accent);
   }
 
   /* Notes index — dark olive layout */

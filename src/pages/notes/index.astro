@@ -2,11 +2,21 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { contentSlug } from "../../lib/contentSlug";
-import { groupNotesBySection } from "../../lib/groupNotes";
 
 const all = await getCollection("notes");
 const published = all.filter((n) => !n.data.draft);
-const notes = groupNotesBySection(published).flatMap(({ notes }) => notes);
+const notes = [...published].sort((a, b) => {
+  if (a.data.order === b.data.order) {
+    return a.data.title.localeCompare(b.data.title);
+  }
+  return a.data.order - b.data.order;
+});
+const notesWithContent = await Promise.all(
+  notes.map(async (note) => {
+    const rendered = await note.render();
+    return { note, Content: rendered.Content };
+  })
+);
 
 const defaultImage = "/images/notes/vector-calculus.svg";
 ---
@@ -17,23 +27,33 @@ const defaultImage = "/images/notes/vector-calculus.svg";
 
     <ul class="notes-cards">
       {
-        notes.map((note) => (
+        notesWithContent.map(({ note, Content }) => (
           <li>
-            <a class="note-card" href={`/notes/${contentSlug(note.id)}`}>
-              <img
-                class="note-card-image"
-                src={note.data.image ?? defaultImage}
-                alt=""
-                width="140"
-                height="140"
-                loading="lazy"
-                decoding="async"
-              />
-              <div class="note-card-body">
-                <h2 class="note-card-title">{note.data.title}</h2>
-                <p class="note-card-desc">{note.data.description}</p>
+            <details class="note-card">
+              <summary class="note-card-summary">
+                <img
+                  class="note-card-image"
+                  src={note.data.image ?? defaultImage}
+                  alt=""
+                  width="140"
+                  height="140"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="note-card-body">
+                  <h2 class="note-card-title">{note.data.title}</h2>
+                  <p class="note-card-desc">{note.data.description}</p>
+                </div>
+              </summary>
+              <div class="note-card-expanded">
+                {note.data.pdf && (
+                  <p class="pdf-link">
+                    <a href={note.data.pdf}>Download PDF</a>
+                  </p>
+                )}
+                <Content />
               </div>
-            </a>
+            </details>
           </li>
         ))
       }
@@ -64,15 +84,10 @@ const defaultImage = "/images/notes/vector-calculus.svg";
   }
 
   .note-card {
-    display: flex;
-    gap: 1.25rem;
-    align-items: stretch;
-    padding: 1rem 1.15rem;
     background: var(--notes-card-bg);
     border: 1px solid var(--notes-card-border);
     border-radius: 1.25rem;
-    text-decoration: none;
-    color: inherit;
+    overflow: hidden;
     transition:
       border-color 0.15s ease,
       box-shadow 0.15s ease;
@@ -81,6 +96,24 @@ const defaultImage = "/images/notes/vector-calculus.svg";
   .note-card:hover {
     border-color: rgba(168, 216, 200, 0.35);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .note-card-summary {
+    display: flex;
+    gap: 1.25rem;
+    align-items: stretch;
+    padding: 1rem 1.15rem;
+    cursor: pointer;
+    list-style: none;
+    color: inherit;
+  }
+
+  .note-card-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .note-card[open] {
+    border-color: rgba(168, 216, 200, 0.35);
   }
 
   .note-card-image {
@@ -115,8 +148,22 @@ const defaultImage = "/images/notes/vector-calculus.svg";
     color: var(--notes-desc);
   }
 
+  .note-card-expanded {
+    padding: 0 1.15rem 1.25rem;
+    color: var(--text);
+  }
+
+  .pdf-link {
+    margin: 0 0 1rem;
+  }
+
+  .pdf-link a {
+    color: var(--notes-heading);
+    text-decoration: underline;
+  }
+
   @media (max-width: 520px) {
-    .note-card {
+    .note-card-summary {
       flex-direction: column;
       align-items: flex-start;
     }

@@ -1,6 +1,6 @@
 ---
-title: "Started BS-MS at IISER Bhopal"
-date: 2025-08-01
+title: "BS-MS at IISER Bhopal"
+date: 2025-09-01
 kind: event
 tags: ["IISER Bhopal", "undergraduate"]
 ---
