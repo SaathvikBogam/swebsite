@@ -4,7 +4,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 
 export default defineConfig({
-  site: "https://SaathvikBogam.github.io/swebsite",
+  site: "https://saathvikbogam.github.io/swebsite",
   integrations: [mdx()],
   markdown: {
     remarkPlugins: [remarkMath],
