@@ -49,7 +49,7 @@ const defaultImage = sitePath("/images/notes/vector-calculus.svg");
               <div class="note-card-expanded">
                 {note.data.pdf && (
                   <p class="pdf-link">
-                    <a href={note.data.pdf}>Download PDF</a>
+                    <a href={sitePath(note.data.pdf)}>Download PDF</a>
                   </p>
                 )}
                 <Content />
