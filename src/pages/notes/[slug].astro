@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { contentSlug } from "../../lib/contentSlug";
+import { sitePath } from "../../lib/sitePath";
 
 export async function getStaticPaths() {
   const posts = await getCollection("notes");
@@ -35,7 +36,7 @@ const { Content } = await post.render();
     <h1>{post.data.title}</h1>
     {post.data.pdf && (
       <p class="pdf">
-        <a href={post.data.pdf}>Download PDF</a>
+        <a href={sitePath(post.data.pdf)}>Download PDF</a>
         <span class="hint"> (compiled from LaTeX)</span>
       </p>
     )}

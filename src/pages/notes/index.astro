@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { contentSlug } from "../../lib/contentSlug";
+import { sitePath } from "../../lib/sitePath";
 
 const all = await getCollection("notes");
 const published = all.filter((n) => !n.data.draft);
@@ -18,7 +19,7 @@ const notesWithContent = await Promise.all(
   })
 );
 
-const defaultImage = "/images/notes/vector-calculus.svg";
+const defaultImage = sitePath("/images/notes/vector-calculus.svg");
 ---
 
 <BaseLayout title="Notes" description="Lecture notes and write-ups." wide>
@@ -33,7 +34,7 @@ const defaultImage = "/images/notes/vector-calculus.svg";
               <summary class="note-card-summary">
                 <img
                   class="note-card-image"
-                  src={note.data.image ?? defaultImage}
+                  src={sitePath(note.data.image ?? defaultImage)}
                   alt=""
                   width="140"
                   height="140"

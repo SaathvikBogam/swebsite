@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { sitePath } from "../lib/sitePath";
 ---
 
 <BaseLayout
@@ -20,7 +21,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </div>
       <figure class="intro-visual">
         <img
-          src="/images/black-hole.jpg"
+          src={sitePath("/images/black-hole.jpg")}
           alt="Supermassive black hole at the center of galaxy M87 (Event Horizon Telescope)"
           width="560"
           height="560"
@@ -48,8 +49,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </p>
 
     <ul class="actions">
-      <li><a href="/journey">Timeline of milestones</a></li>
-      <li><a href="/notes">Notes</a></li>
+      <li><a href={sitePath("/journey")}>Timeline of milestones</a></li>
+      <li><a href={sitePath("/notes")}>Notes</a></li>
     </ul>
   </div>
 </BaseLayout>
