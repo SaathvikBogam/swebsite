@@ -215,19 +215,24 @@ import "../styles/computer-modern.css";
     padding: 0.5rem 0;
   }
 
-  /* Journey page — light blue layout */
+  /* Journey page — dark mode + page-specific tokens */
   body.journey-page {
-    background: #e8f4ff;
+    --bg: #11120f;
+    --fg: #e8e4dc;
+    --muted: #a39e90;
+    --accent: #a8d8c8;
+    --border: rgba(180, 200, 170, 0.12);
+    background: var(--bg);
     color: var(--fg);
   }
 
   body.journey-page .site-header {
-    background: rgba(232, 244, 255, 0.92);
-    border-bottom-color: rgba(45, 74, 111, 0.12);
+    background: rgba(17, 18, 15, 0.92);
+    border-bottom-color: var(--border);
   }
 
   body.journey-page .site-footer {
-    border-top-color: rgba(45, 74, 111, 0.12);
+    border-top-color: var(--border);
   }
 
   body.journey-page .site-header nav a {
@@ -237,6 +242,58 @@ import "../styles/computer-modern.css";
   body.journey-page .site-header nav a:hover,
   body.journey-page .brand:hover {
     color: var(--accent);
+  }
+
+  body.journey-page code {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Homepage — dark mode + page-specific tokens */
+  body.home-page {
+    --bg: #11120f;
+    --fg: #e8e4dc;
+    --muted: #a39e90;
+    --accent: #a8d8c8;
+    --border: rgba(180, 200, 170, 0.12);
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  body.home-page .site-header {
+    background: rgba(17, 18, 15, 0.92);
+    border-bottom-color: var(--border);
+  }
+
+  body.home-page .site-footer {
+    border-top-color: var(--border);
+  }
+
+  body.home-page .brand,
+  body.home-page h1 {
+    color: var(--fg);
+  }
+
+  body.home-page .site-header nav a {
+    color: var(--muted);
+  }
+
+  body.home-page .site-header nav a:hover,
+  body.home-page .brand:hover {
+    color: var(--accent);
+  }
+
+  body.home-page .lede,
+  body.home-page .intro-followup,
+  body.home-page .intro-visual figcaption {
+    color: var(--muted);
+  }
+
+  body.home-page a {
+    color: var(--accent);
+  }
+
+  body.home-page code {
+    background: rgba(255, 255, 255, 0.08);
   }
 
   /* Notes index — dark olive layout */
