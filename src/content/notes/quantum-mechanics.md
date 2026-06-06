@@ -9,4 +9,4 @@ pdf: "/notes/pdfs/QM.pdf"
 ---
 Status: Incomplete
 
-Last Update: 27/05/2026
+Last Update: 06/06/2026
