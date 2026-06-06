@@ -5,7 +5,7 @@ section: "Quantum Mechanics"
 image: "/images/notes/quantum-mechanics.png"
 order: 2
 draft: false
-pdf: "/notes/pdfs/QM.pdf"
+pdf: "/notes/pdfs/QM1.pdf"
 ---
 Status: Incomplete
 
