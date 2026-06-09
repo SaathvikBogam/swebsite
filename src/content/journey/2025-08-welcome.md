@@ -1,5 +1,5 @@
 ---
-title: "BS-MS at IISER Bhopal"
+title: "BS-MS Y1 at IISER Bhopal"
 date: 2025-09-01
 kind: event
 tags: ["IISER Bhopal", "undergraduate"]

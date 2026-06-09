@@ -27,10 +27,10 @@ const { Content } = await post.render();
       </time>
       · {post.data.kind}
     </p>
+    <h1>{post.data.title}</h1>
     {post.data.tags.length > 0 && (
       <p class="tags">{post.data.tags.join(" · ")}</p>
     )}
-    <h1>{post.data.title}</h1>
     <Content />
   </article>
 </BaseLayout>
@@ -39,7 +39,7 @@ const { Content } = await post.render();
   .meta {
     color: var(--muted);
     font-size: 0.95rem;
-    margin: 0 0 0.25rem;
+    margin: 0 0 0.5rem;
   }
 
   .tags {
