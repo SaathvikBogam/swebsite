@@ -2,7 +2,7 @@
 title: "Electromagnetism"
 description: "A course on electromagnetism, starting from the Maxwell equations and describing their application to electrostatics, magnetostatics, induction, light and radiation."
 section: "Electromagnetism"
-image: "/images/notes/Maxwells-equations.jpg"
+image: "/images/notes/em.jpg"
 order: 4
 draft: false
 ---
