@@ -5,8 +5,8 @@ section: "Quantum Mechanics"
 image: "/images/notes/quantum-mechanics.png"
 order: 2
 draft: false
-pdf: "/notes/pdfs/QM2.pdf"
+pdf: "/notes/pdfs/QM3.pdf"
 ---
 Status: Incomplete
 
-Last Update: 08/06/2026
+Last Update: 10/07/2026
