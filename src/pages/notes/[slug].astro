@@ -1,19 +1,21 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { contentSlug } from "../../lib/contentSlug";
 import { sitePath } from "../../lib/sitePath";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("notes");
-  return posts.map((post) => ({
-    params: { slug: contentSlug(post.id) },
-    props: { post },
-  }));
+  const modules = import.meta.glob("../../content/notes/*.mdx");
+  const paths = Object.keys(modules).map((p) => p.split("/").pop().replace(/\.mdx$/, ""));
+  return paths.map((slug) => ({ params: { slug } }));
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
+const slug = Astro.params.slug;
+const modules = import.meta.glob("../../content/notes/*.mdx");
+const match = Object.keys(modules).find((p) => p.split("/").pop().replace(/\.mdx$/, "") === slug);
+if (!match) throw new Error(`Note not found: ${slug}`);
+const mod = await modules[match]();
+const post = { id: slug, data: mod.frontmatter ?? mod.metadata ?? {} };
+if (post.data.date) post.data.date = new Date(post.data.date);
+const Content = mod.default;
 ---
 
 <BaseLayout title={post.data.title}>

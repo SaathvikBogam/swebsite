@@ -1,50 +1,62 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { contentSlug } from "../../lib/contentSlug";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("journey");
-  return posts.map((post) => ({
-    params: { slug: contentSlug(post.id) },
-    props: { post },
-  }));
+  const modules = import.meta.glob("../../content/journey/*.mdx");
+  const paths = Object.keys(modules).map((p) => p.split("/").pop().replace(/\.mdx$/, ""));
+  return paths.map((slug) => ({ params: { slug } }));
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
+const slug = Astro.params.slug;
+const modules = import.meta.glob("../../content/journey/*.mdx");
+const matchPath = Object.keys(modules).find((p) => p.split("/").pop().replace(/\.mdx$/, "") === slug);
+if (!matchPath) throw new Error(`Entry not found: ${slug}`);
+const mod = await modules[matchPath]();
+const post = { id: slug, data: mod.frontmatter ?? mod.metadata ?? {} };
+if (post.data.date) post.data.date = new Date(post.data.date);
+const Content = mod.default;
+
 ---
 
 <BaseLayout title={post.data.title} pageClass="journey-page">
-  <article>
-    <p class="meta">
-      <time datetime={post.data.date.toISOString()}>
-        {post.data.date.toLocaleDateString("en-IN", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
-      </time>
-      · {post.data.kind}
-    </p>
-    <h1>{post.data.title}</h1>
-    {post.data.tags.length > 0 && (
-      <p class="tags">{post.data.tags.join(" · ")}</p>
-    )}
-    <Content />
+  <nav class="back">
+    <a href="/journey">← Back to Journey</a>
+  </nav>
+
+  <article class="entry">
+    <header class="entry-head">
+      <h1>{post.data.title}</h1>
+      <div class="meta">
+        <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString("en-IN", { year: "numeric", month: "short", day: "numeric" })}</time>
+        <span class="pill">{post.data.kind}</span>
+      </div>
+    </header>
+
+    <section class="entry-body"><Content /></section>
   </article>
 </BaseLayout>
 
 <style>
-  .meta {
-    color: var(--muted);
-    font-size: 0.95rem;
-    margin: 0 0 0.5rem;
-  }
+  .back a { color: var(--muted); text-decoration: none; }
+  .back a:hover { color: var(--accent); }
 
-  .tags {
-    font-size: 0.9rem;
-    color: var(--accent);
-    margin: 0 0 1rem;
+  .entry { max-width: 70ch; }
+  .entry-head h1 { margin: 0 0 0.5rem; }
+  .meta { display: flex; gap: 0.6rem; align-items: center; color: var(--muted); font-size: 0.95rem; }
+  .pill { background: rgba(168,216,200,0.08); color: var(--accent); padding: 0.2rem 0.55rem; border-radius: 999px; text-transform: uppercase; font-size: 0.75rem; }
+
+  .entry-body { margin-top: 1rem; }
+  .entry-body img { max-width: 100%; height: auto; border-radius: 8px; }
+  .entry-body pre { background: var(--code-bg); padding: 0.75rem; border-radius: 8px; overflow: auto; }
+
+  /* Improve article typography */
+  .entry-body p { line-height: 1.8; margin: 0 0 1rem; }
+  .entry-body h2 { margin-top: 1.25rem; }
+  .entry-body blockquote { border-left: 3px solid rgba(168,216,200,0.12); padding: 0.5rem 1rem; color: var(--muted); background: rgba(255,255,255,0.01); border-radius: 6px; }
+  .entry-body code { background: rgba(0,0,0,0.35); padding: 0.12rem 0.32rem; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace; }
+
+  @media (max-width: 720px) {
+    .entry { padding: 0 0.5rem; max-width: 100%; }
   }
 </style>
